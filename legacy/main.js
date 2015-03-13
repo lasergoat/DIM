@@ -1,3 +1,5 @@
+// Code here will be linted with JSHint.
+/* jshint ignore:start */
 var bungie = new bungie();
 var loadout = new loadout();
 
@@ -159,7 +161,7 @@ function tryPageLoad() {
 	// 			_sections[i].parentNode.style.display = 'none';
 	// 			for(var j = 0; j < _sections[i].children.length; j++) {
 	// 				for(var k = 0; k < _sections[i].children[j].children.length; k++) {
-	// 					if(_sections[i].children[j].children[k].style.display == '' && _sections[i].parentNode !== null) {
+	// 					if(_sections[i].children[j].children[k].style.display === '' && _sections[i].parentNode !== null) {
 	// 						_sections[i].parentNode.style.display = '';
 	// 						break;
 	// 					}
@@ -185,9 +187,9 @@ function tryPageLoad() {
 	// 		}
 	// 		for (var i = 0; i < item.length; i++) {
 	// 			switch(special) {
-	// 				case 'elemental':	item[i].style.display = _items[item[i].dataset.index].dmg == filter ? '' : 'none'; break;
-	// 				case 'type':	item[i].style.display = _items[item[i].dataset.index].type.toLowerCase() == filter ? '' : 'none'; break;
-	// 				case 'tier':	item[i].style.display = _items[item[i].dataset.index].tier.toLowerCase() == filter ? '' : 'none'; break;
+	// 				case 'elemental':	item[i].style.display = _items[item[i].dataset.index].dmg === filter ? '' : 'none'; break;
+	// 				case 'type':	item[i].style.display = _items[item[i].dataset.index].type.toLowerCase() === filter ? '' : 'none'; break;
+	// 				case 'tier':	item[i].style.display = _items[item[i].dataset.index].tier.toLowerCase() === filter ? '' : 'none'; break;
 	// 				case 'complete':	item[i].style.display = _items[item[i].dataset.index].complete === true ? '' : 'none'; break;
 	// 				default: item[i].style.display = item[i].dataset.name.toLowerCase().indexOf(filter) >= 0 ? '' : 'none'; break;
 	// 			}
@@ -238,3 +240,4 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-60316581-1', 'auto');
 ga('send', 'pageview');
+/* jshint ignore:end */

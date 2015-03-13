@@ -1,3 +1,5 @@
+// Code here will be linted with JSHint.
+/* jshint ignore:start */
 function loadout() {
   // private vars
   var _box, _contents, _saveButton, _cancelButton, _errorText, _name;
@@ -152,3 +154,4 @@ function loadout() {
     return _box.style.display === 'block';
   }
 }
+/* jshint ignore:end */
