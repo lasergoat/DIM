@@ -1,47 +1,50 @@
-(function () {
-  'use strict';
 
-  angular.module('dimApp')
-    .value('dimUserSystemIds', {
-      xbl: null,
-      psn: null
-    })
-    .value('dimConfig', {
-      'membershipType': -1,
-      'active': {}
-    })
-    .run(appRun);
+var dimApp = angular.module(
+    'dimApp', 
+    []
+)
 
-  appRun.$inject = ['dimBungieService', 'dimUserSystemIds', 'dimConfig', '$window'];
+.value('dimUserSystemIds', {
+    xbl: null,
+    psn: null
+})
+.value('dimConfig', {
+    'membershipType': -1,
+    'active': {}
+})
 
-  function appRun(dimBungieService, dimUserSystemIds, dimConfig, $window) {
-    var platformData = null;
-    var storeData = null;
+.run(['dimBungieService', 'dimUserSystemIds', 'dimConfig', '$window',
 
-    dimBungieService.loadBungieNetUser()
-      .then(function (data) {
-        var bungieUser = data.Response;
+    function(dimBungieService, dimUserSystemIds, dimConfig, $window) {
 
-        if (bungieUser.gamerTag) {
-          dimUserSystemIds.xbl = {
-            id: bungieUser.gamerTag,
-            type: 1,
-            label: 'Xbox'
-          };
-        }
+        var platformData = null;
+        var storeData = null;
 
-        if (bungieUser.psnId) {
-          dimUserSystemIds.psn = {
-            id: bungieUser.psnId,
-            type: 2,
-            label: 'PlayStation'
-          };
-        }
+        dimBungieService.loadBungieNetUser()
 
-        dimConfig.active = dimUserSystemIds.xbl;
+        .then(function (data) {
+            var bungieUser = data.Response;
 
-        // if (!_.isNull(dimUserSystemIds.psn.id))
-        //   dimConfig.active = dimUserSystemIds.psn;
-      });
-  }
-})();
+            if (bungieUser.gamerTag) {
+                dimUserSystemIds.xbl = {
+                    id: bungieUser.gamerTag,
+                    type: 1,
+                    label: 'Xbox'
+                };
+            }
+
+            if (bungieUser.psnId) {
+                dimUserSystemIds.psn = {
+                    id: bungieUser.psnId,
+                    type: 2,
+                    label: 'PlayStation'
+                };
+            }
+
+            dimConfig.active = dimUserSystemIds.xbl;
+
+        });
+
+    }
+]);
+

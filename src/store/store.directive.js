@@ -1,17 +1,22 @@
-/*jshint -W027*/
+angular.module('dimApp')
+.directive('dimStores',
 
-(function () {
-  'use strict';
+  ['ngDialog', '$scope', 'dimStoreService',
 
-  angular.module('dimApp')
-    .directive('dimStores', Stores);
-
-  Stores.$inject = ['ngDialog'];
-
-  function Stores(ngDialog) {
+  function(ngDialog, $scope, dimStoreService) {
     return {
       bindToController: true,
-      controller: StoresCtrl,
+      controller: function() {
+
+        var vm = this;
+
+        $scope.$watch(function () {
+          return dimStoreService.getStores();
+        }, function (newVal) {
+          vm.stores = newVal;
+        });
+
+      },
       controllerAs: 'vm',
       scope: {},
       template: [
@@ -22,16 +27,6 @@
       ].join('')
     };
 
-    StoresCtrl.$inject = ['$scope', 'dimStoreService'];
-
-    function StoresCtrl($scope, dimStoreService) {
-      var vm = this;
-
-      $scope.$watch(function () {
-        return dimStoreService.getStores();
-      }, function (newVal) {
-        vm.stores = newVal;
-      });
-    }
   }
-})();
+
+]);

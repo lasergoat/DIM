@@ -1,3 +1,5 @@
+// Code here will be linted with JSHint.
+/* jshint ignore:start */
 (function() {
   'use strict';
 
@@ -23,3 +25,4 @@
     }
   }
 })();
+/* jshint ignore:end */
