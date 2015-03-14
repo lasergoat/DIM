@@ -10,8 +10,8 @@ Destiny Item Manager
 * [chrisfried](https://github.com/chrisfried)
 * [yunaforever009](https://github.com/yunaforever009)
 * [SunburnedGoose](https://github.com/SunburnedGoose)
-* [polyesterhat](https://github.com/polyesterhat)
 * harro
+* [polyesterhat](https://github.com/polyesterhat)
 
 
 
@@ -47,6 +47,17 @@ If you don't want to start a livereload session or a file watch, just use `grunt
 4. Select the DIM/build folder
 
 You do need to select the `DIM/build` folder because `manifest.json` is in there. Also, the scripts get copied into the build folder. This way, you just publish the build folder to the chrome webstore. It's ok to have the unpacked extension running parallel with the official chrome webstore extension.
+
+
+####NOTE ABOUT LIVERELOAD
+
+This chrome extension has two chrome scripts in build/chrome which open the actual window.html page. On event binds to a websocket on the default livereload port `35729`. This socket isn't persistent, so you must run `grunt` before you reload the unpacked extension in chrome.
+
+1. Install or Reload the Chrome extension
+2. Run `grunt`
+3. Begin making changes in the `src/` directory
+
+If you do those steps, the extension will reload automatically for you!! Having the [Chrome Apps and Extensions Developer Tool](https://chrome.google.com/webstore/detail/chrome-apps-extensions-de/ohmmkhmmmpcnpikjeljgnaoabkaalbgc?hl=en) it's extremely easy to reload the extension for that initial step 1.
 
 
 ## Discussion
