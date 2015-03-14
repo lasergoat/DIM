@@ -1,42 +1,17 @@
+/*jshint -W027*/
 
-angular.module('dimApp')
+(function () {
+  'use strict';
 
-.directive('dimStoreItem', 
+  angular.module('dimApp')
+    .directive('dimStoreItem', StoreItem);
 
-  ['$scope', 'dimStoreService', 'ngDialog',
+  StoreItem.$inject = ['ngDialog'];
 
-  function($scope, dimStoreService, ngDialog) {
-
+  function StoreItem(ngDialog) {
     return {
       bindToController: true,
-      controller: function() {
-        var vm = this;
-        var dialogResult = null;
-
-        vm.openLoadout = function(item, e) {
-          e.stopPropagation();
-
-          if (!_.isNull(dialogResult)) {
-            dialogResult.close();
-          } else {
-            ngDialog.closeAll();
-
-            dialogResult = ngDialog.open({
-              template: '<div dim-move-popup dim-store="vm.store" dim-item="vm.item"></div>',
-              plain: true,
-              appendTo: 'div[data-instance-id="' + item.id + '"]',
-              overlay: false,
-              className: 'move-popup',
-              showClose: false,
-              scope: $scope
-            });
-
-            dialogResult.closePromise.then(function (data) {
-              dialogResult = null;
-            });
-          }
-        };
-      },
+      controller: StoreItemCtrl,
       controllerAs: 'vm',
       replace: true,
       scope: {
@@ -53,6 +28,35 @@ angular.module('dimApp')
       ].join('')
     };
 
-  }
+    StoreItemCtrl.$inject = ['$scope', 'dimStoreService'];
 
-]);
+    function StoreItemCtrl($scope, dimStoreService) {
+      var vm = this;
+      var dialogResult = null;
+
+      vm.openLoadout = function openLoadout(item, e) {
+        e.stopPropagation();
+
+        if (!_.isNull(dialogResult)) {
+          dialogResult.close();
+        } else {
+          ngDialog.closeAll();
+
+          dialogResult = ngDialog.open({
+            template: '<div dim-move-popup dim-store="vm.store" dim-item="vm.item"></div>',
+            plain: true,
+            appendTo: 'div[data-instance-id="' + item.id + '"]',
+            overlay: false,
+            className: 'move-popup',
+            showClose: false,
+            scope: $scope
+          });
+
+          dialogResult.closePromise.then(function (data) {
+            dialogResult = null;
+          });
+        }
+      };
+    }
+  }
+})();
