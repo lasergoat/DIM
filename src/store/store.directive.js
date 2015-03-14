@@ -3,10 +3,15 @@
 (function () {
   'use strict';
 
-  angular.module('dimApp')
-    .directive('dimStores', Stores);
+  function StoresCtrl($scope, dimStoreService) {
+    var vm = this;
 
-  Stores.$inject = ['ngDialog'];
+    $scope.$watch(function () {
+      return dimStoreService.getStores();
+    }, function (newVal) {
+      vm.stores = newVal;
+    });
+  }
 
   function Stores(ngDialog) {
     return {
@@ -21,17 +26,12 @@
         '</div>'
       ].join('')
     };
-
-    StoresCtrl.$inject = ['$scope', 'dimStoreService'];
-
-    function StoresCtrl($scope, dimStoreService) {
-      var vm = this;
-
-      $scope.$watch(function () {
-        return dimStoreService.getStores();
-      }, function (newVal) {
-        vm.stores = newVal;
-      });
-    }
   }
+
+  Stores.$inject = ['ngDialog'];
+  StoresCtrl.$inject = ['$scope', 'dimStoreService'];
+
+  angular.module('dimApp')
+    .directive('dimStores', Stores);
+
 })();

@@ -1,12 +1,35 @@
-/*jshint -W027*/
 
 (function () {
   'use strict';
 
-  angular.module('dimApp')
-    .directive('dimStoreItem', StoreItem);
+  function StoreItemCtrl($scope, dimStoreService) {
+    var vm = this;
+    var dialogResult = null;
 
-  StoreItem.$inject = ['ngDialog'];
+    vm.openLoadout = function openLoadout(item, e) {
+      e.stopPropagation();
+
+      if (!_.isNull(dialogResult)) {
+        dialogResult.close();
+      } else {
+        ngDialog.closeAll();
+
+        dialogResult = ngDialog.open({
+          template: '<div dim-move-popup dim-store="vm.store" dim-item="vm.item"></div>',
+          plain: true,
+          appendTo: 'div[data-instance-id="' + item.id + '"]',
+          overlay: false,
+          className: 'move-popup',
+          showClose: false,
+          scope: $scope
+        });
+
+        dialogResult.closePromise.then(function (data) {
+          dialogResult = null;
+        });
+      }
+    };
+  }
 
   function StoreItem(ngDialog) {
     return {
@@ -27,36 +50,14 @@
         '</div>'
       ].join('')
     };
-
-    StoreItemCtrl.$inject = ['$scope', 'dimStoreService'];
-
-    function StoreItemCtrl($scope, dimStoreService) {
-      var vm = this;
-      var dialogResult = null;
-
-      vm.openLoadout = function openLoadout(item, e) {
-        e.stopPropagation();
-
-        if (!_.isNull(dialogResult)) {
-          dialogResult.close();
-        } else {
-          ngDialog.closeAll();
-
-          dialogResult = ngDialog.open({
-            template: '<div dim-move-popup dim-store="vm.store" dim-item="vm.item"></div>',
-            plain: true,
-            appendTo: 'div[data-instance-id="' + item.id + '"]',
-            overlay: false,
-            className: 'move-popup',
-            showClose: false,
-            scope: $scope
-          });
-
-          dialogResult.closePromise.then(function (data) {
-            dialogResult = null;
-          });
-        }
-      };
-    }
   }
+
+  StoreItemCtrl.$inject = ['$scope', 'dimStoreService'];
+  StoreItem.$inject = ['ngDialog'];
+
+  angular.module('dimApp')
+    .directive('dimStoreItem', StoreItem);
+
+
+
 })();

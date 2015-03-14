@@ -3,8 +3,186 @@
 (function () {
   'use strict';
 
-  angular.module('dimApp')
-    .directive('dimStoreItems', StoreItems);
+  function StoreItemsCtrl($scope, dimItemService, dimStoreService, $q) {
+    var vm = this;
+    var types = [ // Order of types in the rows.
+      'Class',
+      'Primary',
+      'Special',
+      'Heavy',
+      'Helmet',
+      'Gauntlets',
+      'Chest',
+      'Leg',
+      'ClassItem',
+      'Emblem',
+      'Armor',
+      'Ghost',
+      'Ship',
+      'Vehicle',
+      'Consumable',
+      'Material'
+    ];
+    vm.orderedTypes = {};
+
+    _.each(types, function (value, index) {
+      vm.orderedTypes[value] = index;
+    });
+
+    vm.categories = { // Grouping of the types in the rows.
+      Weapons: [
+        'Primary',
+        'Special',
+        'Heavy',
+      ],
+      Armor: [
+        'Helmet',
+        'Gauntlets',
+        'Chest',
+        'Leg',
+        'ClassItem',
+      ],
+      General: [
+        'Emblem',
+        'Armor',
+        'Ghost',
+        'Ship',
+        'Vehicle',
+        'Consumable',
+        'Material'
+      ]
+    };
+
+    vm.styles = { // Styles of the types in the rows.
+      Class: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Primary: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Special: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Heavy: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Helmet: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Gauntlets: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Chest: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Leg: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      ClassItem: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Emblem: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Armor: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Ghost: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Ship: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Vehicle: {
+        equipped: 'equipped equippable',
+        unequipped: 'unequipped equippable',
+      },
+      Consumable: {
+        equipped: '',
+        unequipped: 'unequippable',
+      },
+      Material: {
+        equipped: '',
+        unequipped: 'unequippable',
+      }
+    };
+
+    function generateData() {
+      return _.chain(vm.store.items)
+        .sortBy(function (item) {
+          return vm.orderedTypes[item.type];
+        })
+        .groupBy(function (item) {
+          return vm.orderedTypes[item.type];
+        })
+        .mapObject(function (values, key) {
+          return _.groupBy(values, function (item) {
+            return (item.equipped ? 'equipped' : 'unequipped');
+          });
+        })
+        .value();
+    }
+
+    vm.data = generateData();
+
+    vm.onDrop = function (id, e) {
+      var item = dimItemService.getItem(id);
+      var source = null;
+
+      if (item.owner === vm.store.id) {
+        source = vm.store;
+      } else {
+        source = dimStoreService.getStore(item.owner);
+      }
+
+      dimItemService.moveTo(item, vm.store)
+        .then(function(result) {
+          return updateUi(item, source, vm.store);
+        });
+    };
+
+    function updateUi(item, source, target) {
+      return $q(function (resolve, reject) {
+        var index = _.findIndex(source.items, function (prevItems) {
+          return item.id === prevItems.id;
+        });
+
+        if (index >= 0) {
+          source.items.splice(index, 1);
+          target.items.push(item);
+        }
+      });
+    }
+
+    // $scope.$watch('vm.store.items', function (newVal) {
+    //   vm.data = _.chain(vm.store.items)
+    //     .sortBy(function (item) {
+    //       return vm.orderedTypes[item.type];
+    //     })
+    //     .groupBy(function (item) {
+    //       return vm.orderedTypes[item.type];
+    //     })
+    //     .mapObject(function (values, key) {
+    //       return _.groupBy(values, function (item) {
+    //         return (item.equipped ? 'equipped' : 'unequipped');
+    //       });
+    //     })
+    //     .value();
+    // });
+  }
 
   function StoreItems() {
     return {
@@ -38,187 +216,11 @@
       ].join('')
     };
 
-    StoreItemsCtrl.$inject = ['$scope', 'dimItemService', 'dimStoreService', '$q'];
-
-    function StoreItemsCtrl($scope, dimItemService, dimStoreService, $q) {
-      var vm = this;
-      var types = [ // Order of types in the rows.
-        'Class',
-        'Primary',
-        'Special',
-        'Heavy',
-        'Helmet',
-        'Gauntlets',
-        'Chest',
-        'Leg',
-        'ClassItem',
-        'Emblem',
-        'Armor',
-        'Ghost',
-        'Ship',
-        'Vehicle',
-        'Consumable',
-        'Material'
-      ];
-      vm.orderedTypes = {};
-
-      _.each(types, function (value, index) {
-        vm.orderedTypes[value] = index;
-      });
-
-      vm.categories = { // Grouping of the types in the rows.
-        Weapons: [
-          'Primary',
-          'Special',
-          'Heavy',
-        ],
-        Armor: [
-          'Helmet',
-          'Gauntlets',
-          'Chest',
-          'Leg',
-          'ClassItem',
-        ],
-        General: [
-          'Emblem',
-          'Armor',
-          'Ghost',
-          'Ship',
-          'Vehicle',
-          'Consumable',
-          'Material'
-        ]
-      };
-
-      vm.styles = { // Styles of the types in the rows.
-        Class: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Primary: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Special: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Heavy: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Helmet: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Gauntlets: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Chest: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Leg: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        ClassItem: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Emblem: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Armor: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Ghost: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Ship: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Vehicle: {
-          equipped: 'equipped equippable',
-          unequipped: 'unequipped equippable',
-        },
-        Consumable: {
-          equipped: '',
-          unequipped: 'unequippable',
-        },
-        Material: {
-          equipped: '',
-          unequipped: 'unequippable',
-        }
-      };
-
-      function generateData() {
-        return _.chain(vm.store.items)
-          .sortBy(function (item) {
-            return vm.orderedTypes[item.type];
-          })
-          .groupBy(function (item) {
-            return vm.orderedTypes[item.type];
-          })
-          .mapObject(function (values, key) {
-            return _.groupBy(values, function (item) {
-              return (item.equipped ? 'equipped' : 'unequipped');
-            });
-          })
-          .value();
-      }
-
-      vm.data = generateData();
-
-      vm.onDrop = function (id, e) {
-        var item = dimItemService.getItem(id);
-        var source = null;
-
-        if (item.owner === vm.store.id) {
-          source = vm.store;
-        } else {
-          source = dimStoreService.getStore(item.owner);
-        }
-
-        dimItemService.moveTo(item, vm.store)
-          .then(function(result) {
-            return updateUi(item, source, vm.store);
-          });
-      };
-
-      function updateUi(item, source, target) {
-        return $q(function (resolve, reject) {
-          var index = _.findIndex(source.items, function (prevItems) {
-            return item.id == prevItems.id;
-          });
-
-          if (index >= 0) {
-            source.items.splice(index, 1);
-            target.items.push(item);
-          }
-        });
-      }
-
-      // $scope.$watch('vm.store.items', function (newVal) {
-      //   vm.data = _.chain(vm.store.items)
-      //     .sortBy(function (item) {
-      //       return vm.orderedTypes[item.type];
-      //     })
-      //     .groupBy(function (item) {
-      //       return vm.orderedTypes[item.type];
-      //     })
-      //     .mapObject(function (values, key) {
-      //       return _.groupBy(values, function (item) {
-      //         return (item.equipped ? 'equipped' : 'unequipped');
-      //       });
-      //     })
-      //     .value();
-      // });
-    }
   }
+
+  StoreItemsCtrl.$inject = ['$scope', 'dimItemService', 'dimStoreService', '$q'];
+
+  angular.module('dimApp')
+    .directive('dimStoreItems', StoreItems);
+
 })();
