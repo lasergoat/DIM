@@ -49,13 +49,18 @@ module.exports = function(grunt) {
                 options: {
                     styles: {
                         bundle: [ 
+                            'vendor/ngdialog/css/ngDialog.min.css',
                             'build/**/*.css'
                         ]
                     },
                     scripts: {
                         bundle: [
-                            'vendor/angular/angular.min.js',
+                            'vendor/angular/angular.js',
+                            'vendor/underscore/underscore-min.js',
                             'vendor/angular-native-dragdrop/draganddrop.js',
+                            'vendor/ngDialog/js/ngDialog.js',
+                            'vendor/angular-ui-router/release/angular-ui-router.min.js',
+                            'vendor/angular-ui-router.stateHelper/statehelper.min.js',
                             'build/templates.js',
                             'src/**/*.js'
                         ]
@@ -126,7 +131,7 @@ module.exports = function(grunt) {
         [
             'jshint',
             'compass:dev',
-            'html2js:dev',
+            // 'html2js:dev',
             'htmlbuild:dev',
         ]
     );
@@ -135,10 +140,10 @@ module.exports = function(grunt) {
         [
             'jshint',
             'compass:dev',
-            'html2js:dev',
+            // 'html2js:dev',
             'htmlbuild:dev',
-            'watch:dev',
             'connect:dev',
+            'watch:dev',
         ]
     );
 

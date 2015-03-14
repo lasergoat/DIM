@@ -44,7 +44,7 @@ This will begin a watch task which will rebuild the app into the `DIM/build` fol
 3. Click 'Load unpacked extension...' button.
 4. Select the DIM folder
 
-You don't need to select the `DIM/build` folder because `manifest.json` tells chrome to use the build folder.
+You don't need to select the `DIM/build` folder because `manifest.json` tells chrome to use the build folder. It's ok to have the unpacked extension running parallel with the official chrome webstore extension.
 
 
 ## Discussion
