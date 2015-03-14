@@ -11,6 +11,7 @@ Destiny Item Manager
 * [yunaforever009](https://github.com/yunaforever009)
 * [SunburnedGoose](https://github.com/SunburnedGoose)
 * [polyesterhat](https://github.com/polyesterhat)
+* harro
 
 
 
@@ -31,10 +32,11 @@ You may need to use `sudo npm install`. If you don't have npm, Google search "in
 
 **Run The App**
 
-    grunt dev
+    grunt
 
+This will begin a watch task which will rebuild the app into the `DIM/build` folder each time a change is saved and reload the extension within Chrome.
 
-This will begin a watch task which will rebuild the app into the `DIM/build` folder each time a change is saved. Until we set up livereload, you'll just need to manually refresh the chrome extension to see your changes.
+If you don't want to start a livereload session or a file watch, just use `grunt dist` which will simply build the extension into the build foler.
 
 
 ## Install the Extension in Chrome

@@ -131,7 +131,7 @@ module.exports = function(grunt) {
         },
         watch: {
             dev: {
-                files: ['<%= jshint.files %>', 'src/**/*.scss', '<%=csslint.dev.src %>' ,'src/**/*.html'],
+                files: ['<%= jshint.files %>', 'src/**/*.scss', 'src/**/*.html'],
                 tasks: [
                     'jshint', 
                     'compass:dev', 
@@ -177,10 +177,12 @@ module.exports = function(grunt) {
             'concat:dev',
             'htmlbuild:dev',
             'imagemin:dev',
+            'connect:dev',
+            'watch:dev',
         ]
     );
 
-    grunt.registerTask('dev',
+    grunt.registerTask('dist',
         [
             'jshint',
             'compass:dev',
@@ -189,8 +191,6 @@ module.exports = function(grunt) {
             'concat:dev',
             'htmlbuild:dev',
             'imagemin:dev',
-            'connect:dev',
-            'watch:dev',
         ]
     );
 
