@@ -12,6 +12,8 @@
     "underscore": "~1.8.2",
     "ngDialog": "~0.3.12",
     "angular-native-dragdrop": "https://github.com/angular-dragdrop/angular-dragdrop.git#~1.0.6",
-    "q": "1.1.2"
+    "q": "1.1.2",
+    "angular-ui-router": "~0.2.13",
+    "angular-ui-router.stateHelper": "~1.2.1"
   }
 }
