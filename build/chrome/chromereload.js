@@ -13,11 +13,17 @@ connection.onerror = function (error) {
 
 connection.onmessage = function (e) {
   if (e.data) {
+
     var data = JSON.parse(e.data);
+
     if (data && data.command === 'reload') {
+
+      // this will reload the plugin
+      // but not re-open it.
       chrome.runtime.reload();
-      // console.log('id: ' + chrome.runtime.id);
-      // window.open('chrome-extension://'+chrome.runtime.id+'/window.html');
+
     }
+
   }
+
 };
