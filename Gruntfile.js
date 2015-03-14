@@ -16,6 +16,15 @@ module.exports = function(grunt) {
                 }
             },
         },
+        connect: {
+            dev: {
+                options: {
+                    port: 9000,
+                    base: ['', 'vendor', 'build'],
+                    livereload: true
+                }
+            },
+        },
         csslint: {
             dev: {
                 options: {
@@ -35,24 +44,18 @@ module.exports = function(grunt) {
         },
         htmlbuild: {
             dev: {
-                src: 'src/window.html',
+                src: 'src/index.html',
                 dest: 'build',
                 options: {
                     styles: {
                         bundle: [ 
-                            'vendor/bootstrap/**/*.css',
-                            'vendor/angular/css/**/*.css',
                             'build/**/*.css'
                         ]
                     },
                     scripts: {
                         bundle: [
                             'vendor/angular/angular.min.js',
-                            'vendor/angular/**/*.js',
-                            '!vendor/angular/angular-statehelper.min.js',
-                            '!vendor/angular/angular-ui-router.min.js',
-                            '!vendor/angular/ui-utils-ieshiv.min.js',
-                            '!vendor/angular/ui-utils.js',
+                            'vendor/angular-native-dragdrop/draganddrop.js',
                             'build/templates.js',
                             'src/**/*.js'
                         ]
@@ -75,6 +78,8 @@ module.exports = function(grunt) {
                 boss:true,
                 eqnull:true,
                 globals: {
+                    _: true,
+                    angular: true,
                     jQuery: true,
                     console: true,
                     module: true,
@@ -82,20 +87,18 @@ module.exports = function(grunt) {
                 }
             }
         },
+        autoprefixer: {
+            dev: {
+                src: 'build/style.css'
+            },
+        },
         watch: {
             dev: {
                 files: ['<%= jshint.files %>', 'src/**/*.scss', '<%=csslint.dev.src %>' ,'src/**/*.html'],
                 tasks: ['jshint', 'compass:dev', 'autoprefixer:dev', 'html2js:dev', 'htmlbuild:dev'],
                 options: {
+                    livereload: true,
                 },
-            },
-        },
-        autoprefixer: {
-            dev: {
-                expand: true,
-                cwd: 'build',
-                src: [ '**/*.css' ],
-                dest: 'build'
             },
         },
 
@@ -109,6 +112,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-html2js');
     grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // on watch events configure jshint, csslint, sass, htmlbuild to only run on changed file
     grunt.event.on('watch:dev', function(action, filepath) {
@@ -134,6 +138,7 @@ module.exports = function(grunt) {
             'html2js:dev',
             'htmlbuild:dev',
             'watch:dev',
+            'connect:dev',
         ]
     );
 
