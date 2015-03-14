@@ -1,5 +1,7 @@
 vendor
 node_modules
-build
+build/*
 .sass-cache
 npm-debug.log
+!build/manifest.json
+!build/chrome

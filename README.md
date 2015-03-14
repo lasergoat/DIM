@@ -42,9 +42,9 @@ This will begin a watch task which will rebuild the app into the `DIM/build` fol
 1. In chrome go to the [extensions page](chrome://extensions/)
 2. Make sure 'Developer Mode' is checked at the top of the page.
 3. Click 'Load unpacked extension...' button.
-4. Select the DIM folder
+4. Select the DIM/build folder
 
-You don't need to select the `DIM/build` folder because `manifest.json` tells chrome to use the build folder. It's ok to have the unpacked extension running parallel with the official chrome webstore extension.
+You do need to select the `DIM/build` folder because `manifest.json` is in there. Also, the scripts get copied into the build folder. This way, you just publish the build folder to the chrome webstore. It's ok to have the unpacked extension running parallel with the official chrome webstore extension.
 
 
 ## Discussion
