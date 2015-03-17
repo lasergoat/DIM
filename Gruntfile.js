@@ -140,7 +140,7 @@ module.exports = function(grunt) {
                     'htmlbuild:dev'
                 ],
                 options: {
-                    livereload: true,
+                    livereload: 35730
                 },
             },
         },

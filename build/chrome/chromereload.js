@@ -4,7 +4,7 @@
 // The reload client has a compatibility with livereload.
 // WARNING: only supports reload command.
 var LIVERELOAD_HOST = 'localhost:';
-var LIVERELOAD_PORT = 35729;
+var LIVERELOAD_PORT = 35730; // from grunt file watch:dev:livereload
 var connection = new WebSocket('ws://' + LIVERELOAD_HOST + LIVERELOAD_PORT + '/livereload');
 
 connection.onerror = function (error) {
