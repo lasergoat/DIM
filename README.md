@@ -9,8 +9,9 @@ Destiny Item Manager
 * [kyleshay](https://github.com/kyleshay)
 * [chrisfried](https://github.com/chrisfried)
 * [yunaforever009](https://github.com/yunaforever009)
+* [kruegerb](https://github.com/kruegerb)
 * [SunburnedGoose](https://github.com/SunburnedGoose)
-* harro
+* harro - Designer and Project Manager
 * [polyesterhat](https://github.com/polyesterhat)
 
 
